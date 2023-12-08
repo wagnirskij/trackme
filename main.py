@@ -3,6 +3,7 @@ from datetime import datetime
 import categories
 import ui
 import calculate_percentage
+from ui import UserInterface
 
 ###
 # 1. set categories
@@ -24,7 +25,9 @@ class TrackMe:
     def __init__(self) -> None:
         pass
 
-
+    
 
 if __name__ == '__main__':
-    TrackMe()
+    ui = UserInterface()
+    ui
+

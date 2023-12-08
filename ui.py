@@ -2,6 +2,10 @@ import tkinter as tk
 from datetime import datetime, timedelta
 import time
 import json
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+import pandas as pd
 
 
 class UserInterface:
@@ -47,6 +51,9 @@ class UserInterface:
 
         self.save_button = tk.Button(text="Record Time", command=self.record_time)
         self.save_button.grid(row=4, column=2)
+
+        self.show_graph_button = tk.Button(text="Show Graph", command=self.show_graph)
+        self.show_graph_button.grid(row=5, column=3)
 
         self.time_label = tk.Label(text="Time: ", font=("Arial", 20), bg="blue", fg="white")
         self.time_label.grid(row=0, column=1)
@@ -95,9 +102,24 @@ class UserInterface:
 
         self.times_dict["productive seconds"] = self.good_time_total
         self.times_dict["fuckin around seconds"] = self.bad_time_total
-        with open("F:/100DAYS/trackme/recorded_seconds.json", mode="w") as data:
+        
+        with open(f"F:/100DAYS/trackme/{datetime.now().date()}.json", mode="w") as data:
             json.dump(self.times_dict, data, indent=4)
+    
+    def show_graph(self):
 
+        with open(f"F:/100DAYS/trackme/{datetime.now().date()}.json", mode="r") as file:
+            data = json.load(file)
+        
+        labels = list(data.keys())
+        values = list(data.values())
+
+        plt.bar(labels, values)
+        plt.xlabel("Activity")
+        plt.ylabel("Seconds")
+        plt.title(f"Time Spent on {datetime.now().date()}")
+        plt.show()
+        self.window.quit()
 
     def good_time_start_record(self):
         if self.bad_time_start:
@@ -118,6 +140,4 @@ class UserInterface:
 
 
 
-ui = UserInterface()
-ui
 
